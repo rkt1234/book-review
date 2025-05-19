@@ -14,12 +14,25 @@ exports.createBook = async (req, res) => {
 };
 
 exports.getAllBooks = async (req, res) => {
-  const { page = 1, limit = 10, author, genre } = req.query;
+  const { page = 1, limit = 10 } = req.query;
   const skip = (page - 1) * limit;
 
-  const filters = {};
-  if (author) filters.author = { contains: author, mode: 'insensitive' };
-  if (genre) filters.genre = { contains: genre, mode: 'insensitive' };
+  let filters = {};
+  const allowedFields = ['title', 'author', 'genre'];
+
+  if (req.query.filters) {
+    try {
+      const parsedFilters = JSON.parse(req.query.filters);
+      filters = Object.entries(parsedFilters).reduce((acc, [key, value]) => {
+        if (allowedFields.includes(key)) {
+          acc[key] = { contains: value, mode: 'insensitive' };
+        }
+        return acc;
+      }, {});
+    } catch (err) {
+      return res.status(400).json({ error: 'Invalid filters format (must be valid JSON)' });
+    }
+  }
 
   try {
     const books = await prisma.book.findMany({
@@ -29,10 +42,11 @@ exports.getAllBooks = async (req, res) => {
       orderBy: { createdAt: 'desc' }
     });
     res.json(books);
-  } catch {
+  } catch (err) {
     res.status(500).json({ error: 'Failed to fetch books' });
   }
 };
+
 
 exports.getBookById = async (req, res) => {
   const { id } = req.params;

@@ -27,7 +27,7 @@ exports.addReview = async (req, res) => {
       data: { rating, comment, userId, bookId }
     });
 
-    res.status(201).json(review);
+    res.status(201).json({message: 'Review Created!',review});
   } catch (err) {
     res.status(500).json({ error: 'Failed to add review' });
   }
@@ -48,7 +48,7 @@ exports.updateReview = async (req, res) => {
       data: { rating, comment }
     });
 
-    res.json(updated);
+    res.json({message: 'Review Updated!',updated});
   } catch {
     res.status(500).json({ error: 'Failed to update review' });
   }

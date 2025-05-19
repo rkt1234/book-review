@@ -14,7 +14,9 @@ exports.signup = async (req, res) => {
       data: { name, email, password: hashed }
     });
 
-    res.status(201).json({ message: 'User created successfully' });
+    const token = generateToken(user.id)
+
+    res.status(201).json({ message: 'User created successfully', token });
   } catch (err) {
     res.status(500).json({ error: 'Signup failed' });
   }
@@ -30,7 +32,7 @@ exports.login = async (req, res) => {
     if (!isValid) return res.status(401).json({ error: 'Invalid credentials' });
 
     const token = generateToken(user.id);
-    res.json({ token });
+    res.status(201).json({ message: "User logged in successfully", token });
   } catch (err) {
     res.status(500).json({ error: 'Login failed' });
   }
