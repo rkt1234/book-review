@@ -7,9 +7,12 @@ app.use(express.json());
 const PORT = process.env.PORT || 3000;
 const authRoutes = require('./src/routes/authRoutes');
 const bookRoutes = require('./src/routes/bookRoutes');
+const reviewRoutes = require('./src/routes/reviewRoutes');
+
 app.get("/", (req, res) => res.send("Book Review API is running"));
 app.use('/api', authRoutes);
 app.use('/api', bookRoutes);
+app.use('/api', reviewRoutes);
 
 
 app.listen(PORT, () => {
