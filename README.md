@@ -184,4 +184,7 @@ Access via Swagger UI at:
 ```
 http://localhost:3000/api-docs
 ```
+```
+https://stale-loreen-ravikanttiwari-59061ab7.koyeb.app/api-docs/
+```
 
