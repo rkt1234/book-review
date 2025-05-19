@@ -14,6 +14,12 @@ const options = {
         url: `${process.env.SERVER_URL || 'http://localhost:3000'}/api`
       }
     ],
+    tags: [
+        { name: 'Auth', description: 'Authentication routes' },
+        { name: 'Books', description: 'Book management' },
+        { name: 'Reviews', description: 'Review management' },
+        { name: 'Search', description: 'Search functionality' }
+    ],
     components: {
       securitySchemes: {
         bearerAuth: {
